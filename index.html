@@ -213,17 +213,23 @@ async function load(){
     count=list.length;avg=average(list);table(list);
     $('#cnt').textContent='('+count+')';
     if(mode==='avg')draw(avg||vals,!closed());
-  }catch(e){}
+    return list;
+  }catch(e){return null}
 }
 $('#submit').onclick=async()=>{
   if(closed())return say('ההימורים נסגרו.');
   if(!valid()||!nm())return;
   $('#submit').disabled=true;say('שולח...',true);
-  try{
-    const j=await (await fetch(API,{method:'POST',body:JSON.stringify({name:nm(),seats:vals})})).json();
-    if(j.error){say(j.error);update();return}
-    submitted=true;say('ההימור נקלט! בהצלחה 🎉',true);setMode('avg');load();
-  }catch(e){say('שגיאה בשמירה, נסו שוב.');update()}
+  const done=()=>{submitted=true;say('ההימור נקלט! בהצלחה 🎉',true);try{setMode('avg')}catch(e){}};
+  let j=null;
+  try{j=await (await fetch(API,{method:'POST',body:JSON.stringify({name:nm(),seats:vals})})).json()}catch(e){}
+  if(j&&j.error){say(j.error);update();return}
+  if(j&&j.ok){done();load();return}
+  // לא התקבלה תשובה ברורה: בודקים אם ההימור נשמר בפועל
+  await new Promise(r=>setTimeout(r,1500));
+  const list=await load();
+  if(list&&list.some(d=>String(d.name).toLowerCase()===nm().toLowerCase()))return done();
+  say('לא הצלחנו לאשר את השמירה. בדקו חיבור ונסו שוב.');update();
 };
 $('#csv').onclick=()=>{
   if(!closed())return;
