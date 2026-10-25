@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>הימורי בחירות</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--tx:#1b1f2a;--mut:#667;--bd:#dde1ea;--ac:#2f5bea;--bad:#d33;--ok:#1a9a4a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12141b;--card:#1c1f29;--tx:#eceef5;--mut:#9aa1b5;--bd:#333848;--ac:#6f8cff;--bad:#ff6b6b;--ok:#4cd07d}}
+:root[data-theme="dark"]{--bg:#12141b;--card:#1c1f29;--tx:#eceef5;--mut:#9aa1b5;--bd:#333848;--ac:#6f8cff;--bad:#ff6b6b;--ok:#4cd07d}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,"Segoe UI",Arial,sans-serif;line-height:1.5}
+main{max-width:1000px;margin:auto;padding:16px;display:grid;gap:16px}
+h1{margin:8px 0 0;font-size:1.7rem}h2{margin:0 0 10px;font-size:1.15rem}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px}
+.mut{color:var(--mut);font-size:.9rem}
+input[type=text]{width:100%;padding:10px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font-size:1rem}
+.row{display:grid;grid-template-columns:130px 1fr 52px;gap:10px;align-items:center;padding:5px 0}
+.row b{display:flex;align-items:center;gap:6px;font-weight:600;font-size:.95rem}
+.dot{width:12px;height:12px;border-radius:50%;flex:none}
+.row input[type=range]{width:100%;direction:ltr}
+.row input[type=number]{width:52px;padding:4px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);text-align:center}
+.total{display:flex;justify-content:center;text-align:center;align-items:center;margin-top:12px;font-weight:700;font-size:1.1rem}
+.total.ok span{color:var(--ok)}.total.bad span{color:var(--bad)}
+button{font:inherit;border:0;border-radius:10px;padding:10px 18px;background:var(--ac);color:#fff;font-weight:700;cursor:pointer}
+button:disabled{opacity:.4;cursor:not-allowed}
+button.alt{background:var(--bg);color:var(--tx);border:1px solid var(--bd);padding:6px 12px;font-weight:500}
+button.alt.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+#msg{margin-top:8px;min-height:1.4em;font-weight:600}
+.tabs{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+svg{width:100%;height:auto;display:block}
+.seat{transition:fill .5s,transform .6s cubic-bezier(.2,1.4,.4,1),opacity .4s;transform-box:fill-box;transform-origin:center}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px;font-size:.85rem}
+.legend span{display:flex;align-items:center;gap:5px}
+.bloc{display:grid;grid-template-columns:minmax(110px,170px) 1fr 40px;gap:10px;align-items:center;margin:8px 0}
+.bar{height:26px;background:var(--bg);border-radius:8px;overflow:hidden;border:1px solid var(--bd);position:relative}
+.bar i{display:block;height:100%;width:0;transition:width .9s cubic-bezier(.2,.8,.2,1);float:right}
+.maj{position:absolute;top:0;bottom:0;right:50.8%;border-right:2px dashed var(--tx);opacity:.5}
+.stack{display:flex;height:34px;border-radius:10px;overflow:hidden;margin:6px 0}
+.stack div{height:100%;transition:width .9s;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.85rem}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.85rem;white-space:nowrap}th,td{padding:6px 8px;border-bottom:1px solid var(--bd);text-align:center}th{font-weight:600;color:var(--mut)}td:first-child,th:first-child{text-align:right;font-weight:700;position:sticky;right:0;background:var(--card)}
+dialog{width:min(96vw,1000px);max-height:90vh;border:1px solid var(--bd);border-radius:14px;background:var(--card);color:var(--tx);padding:0}dialog::backdrop{background:#0008}
+.ld{display:block;font-weight:400;color:var(--mut);font-size:.72rem;line-height:1.1}
+@media(max-width:560px){.row{grid-template-columns:100px 1fr 48px}}
+:root{--bg:#f2f2f7;--card:#fff;--tx:#1c1c1e;--mut:#8a8a8e;--bd:#e5e5ea;--ac:#007aff;--bad:#ff3b30;--ok:#34c759}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#000;--card:#1c1c1e;--tx:#f5f5f7;--mut:#98989f;--bd:#38383a;--ac:#0a84ff;--bad:#ff453a;--ok:#30d158}}
+:root[data-theme="dark"]{--bg:#000;--card:#1c1c1e;--tx:#f5f5f7;--mut:#98989f;--bd:#38383a;--ac:#0a84ff;--bad:#ff453a;--ok:#30d158}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Heebo","Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1{font-size:2.2rem;font-weight:800;letter-spacing:-.02em}h2{font-size:1.2rem;font-weight:700}
+.card{border:0;border-radius:24px;padding:20px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 10px 30px rgba(0,0,0,.06)}
+input[type=text]{border:0;background:var(--bg);border-radius:14px;padding:13px 16px}
+.row{border-bottom:.5px solid var(--bd);padding:9px 0}.row:last-child{border:0}
+.row input[type=number]{border:0;background:var(--bg);border-radius:10px;padding:7px 2px}
+.total{background:var(--bg);border-radius:16px;padding:12px}
+button{border-radius:999px;padding:12px 24px;font-weight:600;transition:transform .15s,opacity .2s}
+button:active:not(:disabled){transform:scale(.96)}
+button.alt{background:var(--bg);color:var(--tx);border:0}
+.tabs{background:var(--bg);padding:3px;border-radius:999px;display:inline-flex}
+.tabs button.alt{background:transparent;padding:8px 16px;font-weight:500}
+.tabs button.alt.on{background:var(--card);color:var(--tx);box-shadow:0 1px 4px rgba(0,0,0,.15)}
+input[type=range]{-webkit-appearance:none;appearance:none;height:28px;background:transparent}
+input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:var(--bd)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;margin-top:-10px;box-shadow:0 1px 4px rgba(0,0,0,.3),0 0 0 .5px rgba(0,0,0,.08)}
+input[type=range]::-moz-range-track{height:6px;border-radius:3px;background:var(--bd)}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border:0;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.bar{border:0;border-radius:999px;height:22px}.stack{border-radius:999px;height:36px}.stack div{color:#1c1c1e}
+dialog{border:0;border-radius:24px}
+:root:root:root{--bg:#d9dae1;--card:#fff;--tx:#1c1c1e;--mut:#6e6e73;--bd:#c2c3cc;--ac:#007aff;--bad:#ff3b30;--ok:#1fa84a;color-scheme:light}
+input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:linear-gradient(to right,var(--c,#ccc) var(--p,0%),#fff var(--p,0%));box-shadow:inset 0 0 0 1px var(--bd)}
+input[type=range]::-webkit-slider-thumb{margin-top:-9px}
+input[type=range]::-moz-range-track{height:8px;border-radius:4px;background:linear-gradient(to right,var(--c,#ccc) var(--p,0%),#fff var(--p,0%));box-shadow:inset 0 0 0 1px var(--bd)}
+body{background:#1e1e22}header{color:#f5f5f7}header .mut{color:#a1a1a6}
+:root:root:root{--card:#e9e7e1;--bg:#d8d6cf;--bd:#bcb9b0}
+</style>
+</head>
+<body>
+<main>
+<header style="order:-3"><h1>🗳️ הימורי בחירות</h1><div class="mut">נחשו כמה מנדטים תקבל כל מפלגה. סך הכול חייב להיות 120, ולכל מפלגה או 0 מנדטים (באי באחוז החסימה) או בין 4 ל-120.</div><div id="dl" style="font-weight:700;margin-top:4px"></div></header>
+
+<section class="card">
+  <h2>ההימור שלך</h2>
+  <input type="text" id="name" placeholder="השם שלך" maxlength="30" autocomplete="off">
+  <div id="rows" style="margin-top:10px"></div>
+  <div class="total" id="total"><span>סה"כ מנדטים: <b id="sum">0</b> / 120</span></div>
+  <div style="margin-top:10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+    <button id="submit" disabled>שלח הימור</button><button class="alt" id="auto">חלק שווה</button>
+  </div>
+  <div id="msg"></div>
+</section>
+
+<section class="card" style="order:-1">
+  <h2>התפלגות 120 המושבים</h2>
+  <div class="tabs"><button class="alt on" id="tLive">ההימור שלי (חי)</button><button class="alt" id="tAvg">ממוצע כל המהמרים <span id="cnt"></span></button></div>
+  <svg viewBox="0 0 460 250" id="hemi" role="img" aria-label="הכנסת"></svg>
+  <div class="legend" id="legend"></div>
+</section>
+
+<section class="card">
+  <h2>גושים</h2>
+  <div class="stack" id="stack"></div>
+  <div id="blocs"></div>
+  <div class="mut">הקו המקווקו מסמן רוב של 61. שס שובצה בקואליציה (לא צוינה בבקשה המקורית).</div>
+</section>
+
+<section class="card" style="text-align:center"><button id="openT">📋 הצג טבלת מהמרים</button></section>
+
+<dialog id="dlg"><section class="card" style="border:0">
+  <h2>טבלת מהמרים <span class="mut" id="tcnt"></span> <button class="alt" id="closeT" style="float:left">✕ סגור</button></h2>
+  <div class="mut" style="margin-bottom:8px">הימורי המפלגות עצמן יוצגו ויהיו זמינים לייצוא רק אחרי הסגירה. עד אז רואים רק את חלוקת הגושים.</div>
+  <button id="csv" style="display:none;margin-bottom:10px">⬇️ ייצוא CSV</button>
+  <div class="tw"><table id="tbl"></table></div>
+</section></dialog>
+</main>
+<script>
+const P=[
+{k:'yashar',n:'ישר!',c:'#1f9ec9',b:'o'},{k:'likud',n:'הליכוד',c:'#1e5fd6',b:'c'},{k:'beyachad',n:'ביחד',c:'#8e5bd1',b:'o'},
+{k:'yb',n:'ישראל ביתנו',c:'#3cc3e0',b:'o'},{k:'otzma',n:'עוצמה יהודית',c:'#7a1f1f',b:'c'},{k:'dem',n:'הדמוקרטים',c:'#e5484d',b:'o'},
+{k:'shas',n:'שס',c:'#e6a817',b:'c'},{k:'degel',n:'דגל התורה',c:'#6b6f7a',b:'c'},{k:'joint',n:'הרשימה המשותפת',c:'#2e9e5b',b:'x'},
+{k:'rz',n:'הציונות הדתית',c:'#e7742b',b:'c'},{k:'raam',n:`רע"מ`,c:'#117a65',b:'x'},{k:'amach',n:'עמך ישראל',c:'#c25a9c',b:'c'},
+{k:'mil',n:'המילואמניקים - הכלכלית',c:'#9aa832',b:'x'}];
+const BL={c:{n:'קואליציה',c:'#f28b82'},o:{n:'אופוזיציה',c:'#7fa8f5'},x:{n:'אחר',c:'#c3c8d4'}};
+const LD={yashar:'גדי איזנקוט',likud:'בנימין נתניהו',beyachad:'נפתלי בנט',yb:'אביגדור ליברמן',otzma:'איתמר בן גביר',dem:'יאיר גולן',shas:'אריה דרעי',degel:'יעקב אשר',joint:"יוסף ג'בארין",rz:"בצלאל סמוטריץ'",raam:'מנסור עבאס',amach:'עופר וינטר',mil:'יועז הנדל'};
+// hemicycle seat order (left->right on screen)
+const PASTEL={yashar:'#7cc4e8',likud:'#7aa7f0',beyachad:'#b79cf0',yb:'#8fe0e8',otzma:'#d98c8c',dem:'#f59aa3',shas:'#f5d36b',degel:'#b4b9c7',joint:'#86d3a3',rz:'#f4a974',raam:'#6fc9b0',amach:'#eb9ccf',mil:'#c6d974'};P.forEach(p=>p.c=PASTEL[p.k]);
+const ORDER=['joint','raam','dem','yashar','beyachad','yb','mil','amach','shas','degel','rz','otzma','likud'];
+const $=s=>document.querySelector(s);
+const byK=Object.fromEntries(P.map(p=>[p.k,p]));
+let vals={},mode='live',avg=null,count=0,db=null,submitted=false;
+// סגירה: 26.10.2026 23:59 שעון ישראל (UTC+2)
+const DL=Date.UTC(2026,9,26,21,59,59,999);
+const closed=()=>Date.now()>DL;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function tick(){const el=$('#dl');if(closed()){el.textContent='⛔ ההימורים נסגרו';el.style.color='var(--bad)';$('#csv').style.display='';if(!revealed){revealed=true;table(lastList);if(mode==='avg')draw(avg||vals,false)}update();return}
+  const d=DL-Date.now(),h=Math.floor(d/36e5),dd=Math.floor(h/24);
+  el.textContent='⏰ ההימורים נסגרים ב-26.10 בשעה 23:59 (נותרו '+(dd?dd+' ימים ו-':'')+(h%24)+' שעות ו-'+Math.floor(d%36e5/6e4)+' דקות)';el.style.color='var(--ok)'}
+let lastList=[],revealed=false;
+function table(list){lastList=list;tableOld(list);if(!closed())document.querySelectorAll('#tbl tr').forEach(r=>[...r.children].slice(4).forEach(c=>c.remove()))}
+function tableOld(list){
+  list=list.slice().sort((a,b)=>a.ts-b.ts);$('#tcnt').textContent='('+list.length+')';
+  const bt=s=>{const t={c:0,o:0,x:0};P.forEach(p=>t[p.b]+=s[p.k]||0);return t};
+  $('#tbl').innerHTML='<tr><th>שם</th><th>קואליציה</th><th>אופוזיציה</th><th>אחר</th>'+P.map(p=>`<th><i class="dot" style="background:${p.c};display:inline-block"></i> ${p.n}</th>`).join('')+'</tr>'+
+   (list.length?list.map(d=>{const t=bt(d.seats);return `<tr><td>${esc(d.name)}</td><td>${t.c}</td><td>${t.o}</td><td>${t.x}</td>`+P.map(p=>`<td>${d.seats[p.k]}</td>`).join('')+'</tr>'}).join(''):'<tr><td colspan="17" class="mut">עדיין אין הימורים</td></tr>');
+}
+const base=Math.floor(120/P.length);P.forEach((p,i)=>vals[p.k]=0);
+
+// rows
+$('#rows').innerHTML=P.map(p=>`<div class="row"><b><i class="dot" style="background:${p.c}"></i><span>${p.n}<small class="ld">${LD[p.k]}</small></span></b><input type="range" min="0" max="35" id="r_${p.k}"><input type="number" min="0" max="120" id="n_${p.k}"></div>`).join('');
+P.forEach(p=>{
+  const r=$('#r_'+p.k),n=$('#n_'+p.k);
+  const set=v=>{v=Math.max(0,Math.min(120,Math.round(+v)||0));vals[p.k]=v;r.value=v;n.value=v;update()};
+  r.oninput=()=>set(r.value);n.onchange=()=>set(n.value);r.value=n.value=vals[p.k];
+});
+const sum=()=>P.reduce((a,p)=>a+vals[p.k],0);
+const valid=()=>sum()===120&&P.every(p=>vals[p.k]===0||(vals[p.k]>=4&&vals[p.k]<=120));
+const nm=()=>$('#name').value.trim().replace(/\s+/g,' ');
+
+function update(){
+  const s=sum();$('#sum').textContent=s;
+  $('#total').className='total '+(s===120?'ok':'bad');
+  P.forEach(p=>{const v=vals[p.k],bad=v>0&&v<4,r=$('#r_'+p.k);$('#n_'+p.k).style.borderColor=bad?'var(--bad)':'';r.style.setProperty('--c',p.c);r.style.setProperty('--p','calc(13px + (100% - 26px)*'+(Math.min(v,35)/35)+')');});
+  $('#submit').disabled=!(valid()&&nm()&&!submitted&&!closed());
+  if(mode==='live')draw(vals);
+}
+$('#name').oninput=update;
+$('#auto').onclick=()=>{P.forEach((p,i)=>{const v=base+(i<120-base*P.length?1:0);vals[p.k]=v;$('#r_'+p.k).value=v;$('#n_'+p.k).value=v});update()};
+
+// hemicycle
+const seats=[];(function(){
+  const R=[80,108,136,164,192],N=[14,19,24,29,34],pts=[];
+  R.forEach((r,i)=>{for(let j=0;j<N[i];j++){const a=Math.PI*(1-j/(N[i]-1));pts.push({a,x:230+r*Math.cos(a),y:225-r*Math.sin(a)})}});
+  pts.sort((u,v)=>v.a-u.a);
+  $('#hemi').innerHTML=pts.map((p,i)=>`<circle class="seat" id="s${i}" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="6.5" fill="#999" style="opacity:0;transform:scale(0)"/>`).join('')+`<text x="230" y="215" text-anchor="middle" font-size="30" font-weight="800" fill="currentColor" id="hc">120</text>`;
+  for(let i=0;i<120;i++)seats.push($('#s'+i));
+})();
+let first=true;
+function draw(m,hide){
+  let i=0;
+  const ord=hide?P.slice().sort((a,b)=>'xoc'.indexOf(a.b)-'xoc'.indexOf(b.b)).map(p=>p.k):ORDER;
+  ord.forEach(k=>{const n=m[k]||0;for(let j=0;j<n&&i<120;j++,i++){
+    const el=seats[i];el.setAttribute('fill',hide?BL[byK[k].b].c:byK[k].c);
+    if(first){el.style.transitionDelay=(i*12)+'ms'}else el.style.transitionDelay='0ms';
+    el.style.opacity=1;el.style.transform='scale(1)';}});
+  for(;i<120;i++){seats[i].style.transitionDelay=first?(i*4)+'ms':'0ms';seats[i].style.opacity=1;seats[i].style.transform='scale(1)';seats[i].setAttribute('fill','#9aa1b5')}
+  first=false;
+  $('#legend').innerHTML=hide?['c','o','x'].map(b=>`<span><i class="dot" style="background:${BL[b].c}"></i>${BL[b].n} <b>${P.reduce((a,p)=>a+(p.b===b?m[p.k]:0),0)}</b></span>`).join('')+'<span class="mut">(פירוט המפלגות יוצג לאחר הסגירה)</span>':P.slice().sort((a,b)=>m[b.k]-m[a.k]).map(p=>`<span><i class="dot" style="background:${p.c}"></i>${p.n} <b>${m[p.k]}</b></span>`).join('');
+  blocs(m);
+}
+function blocs(m){
+  const t={c:0,o:0,x:0};P.forEach(p=>t[p.b]+=m[p.k]||0);
+  $('#stack').innerHTML=['c','o','x'].map(b=>`<div style="width:${t[b]/120*100}%;background:${BL[b].c}">${t[b]?t[b]:''}</div>`).join('');
+  $('#blocs').innerHTML=['c','o','x'].map(b=>`<div class="bloc"><b>${BL[b].n}<small class="ld">${P.filter(p=>p.b===b).map(p=>p.n).join('، ')}</small></b><div class="bar"><i style="background:${BL[b].c}" data-w="${t[b]/120*100}"></i><span class="maj"></span></div><b>${t[b]}</b></div>`).join('');
+  requestAnimationFrame(()=>requestAnimationFrame(()=>document.querySelectorAll('#blocs i').forEach(e=>e.style.width=e.dataset.w+'%')));
+}
+function setMode(m){mode=m;$('#tLive').classList.toggle('on',m==='live');$('#tAvg').classList.toggle('on',m==='avg');draw(m==='live'?vals:(avg||vals),m==='avg'&&!closed())}
+$('#tLive').onclick=()=>setMode('live');$('#tAvg').onclick=()=>setMode('avg');
+
+// average with largest remainder
+function average(list){
+  if(!list.length)return null;
+  const raw={};P.forEach(p=>raw[p.k]=list.reduce((a,b)=>a+(b.seats[p.k]||0),0)/list.length);
+  const out={};let used=0;P.forEach(p=>{out[p.k]=Math.floor(raw[p.k]);used+=out[p.k]});
+  P.slice().sort((a,b)=>(raw[b.k]%1)-(raw[a.k]%1)).slice(0,120-used).forEach(p=>out[p.k]++);
+  return out;
+}
+const API='https://script.google.com/macros/s/AKfycbzud8tJe3rIodgklALX5owhVrgxEnKmwn4VYFDKYe1U3ciS1qzD9SaTK2npNBAXQBnb/exec';
+function say(t,ok){const m=$('#msg');m.textContent=t;m.style.color=ok?'var(--ok)':'var(--bad)'}
+function norm(d){if(d.seats)return d;const b=d.blocs||{};return{name:d.name,ts:d.ts,seats:{likud:b.c||0,yashar:b.o||0,joint:b.x||0}}}
+async function load(){
+  try{
+    const j=await (await fetch(API+'?t='+Date.now())).json();
+    const list=(j.bets||[]).map(norm);
+    count=list.length;avg=average(list);table(list);
+    $('#cnt').textContent='('+count+')';
+    if(mode==='avg')draw(avg||vals,!closed());
+  }catch(e){}
+}
+$('#submit').onclick=async()=>{
+  if(closed())return say('ההימורים נסגרו.');
+  if(!valid()||!nm())return;
+  $('#submit').disabled=true;say('שולח...',true);
+  try{
+    const j=await (await fetch(API,{method:'POST',body:JSON.stringify({name:nm(),seats:vals})})).json();
+    if(j.error){say(j.error);update();return}
+    submitted=true;say('ההימור נקלט! בהצלחה 🎉',true);setMode('avg');load();
+  }catch(e){say('שגיאה בשמירה, נסו שוב.');update()}
+};
+$('#csv').onclick=()=>{
+  if(!closed())return;
+  const L=lastList.slice().sort((a,b)=>a.ts-b.ts);
+  const q=s=>{s=String(s);if(/^[=+\-@]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'};
+  const rows=[['מפלגה',...L.map(x=>x.name)]];
+  P.forEach(p=>rows.push([p.n,...L.map(x=>x.seats[p.k])]));
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob(['\uFEFF'+rows.map(r=>r.map(q).join(',')).join('\r\n')],{type:'text/csv;charset=utf-8'}));
+  a.download='election-bets.csv';a.click();
+};
+$('#openT').onclick=()=>$('#dlg').showModal();$('#closeT').onclick=()=>$('#dlg').close();
+table([]);load();setInterval(load,20000);tick();setInterval(tick,30000);update();
+</script>
+</body>
+</html>
